@@ -149,7 +149,13 @@ var relabelButton = function(context) {
 				mutableOverrides.objectForKey(0).setObject_forKey(newText, ObjectId)
 
 				// apply the overrides to the symbol instance
-				sel.applyOverrides_allSymbols_(mutableOverrides, false);
+				// applyOverrides_allSymbols_ has been deprecated in newer versions of Sketch
+				// http://sketchplugins.com/d/154-applyoverrides-allsymbols-depreciated-in-43/24
+				if (sel.applyOverrides_allSymbols_) {
+					sel.applyOverrides_allSymbols_(mutableOverrides, false)
+				} else {
+					sel.overrides = mutableOverrides;
+				}
 
 				// deselect and reselect so the override text gets updated in the inspector
 				sel.setIsSelected(false);
